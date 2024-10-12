@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\api\categories;
 
-use App\Models\category;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class CategoryController extends Controller
@@ -15,7 +16,7 @@ class CategoryController extends Controller
         try {
             $validateCategory = Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:categories',
-                'user_id' => 'required|integer|exists:users,id',
+                'user_id' => 'nullable|integer|exists:users,id',
             ]);
 
             if ($validateCategory->fails()) {
@@ -23,12 +24,12 @@ class CategoryController extends Controller
                     'status' => false,
                     'message' => 'Validation error',
                     'errors' => $validateCategory->errors()
-                ], 401);
+                ], 400);
             }
 
-            $category = category::create([
+            $category = Category::create([
                 'name' => $request->name,
-                'user_id' => $request->user_id
+                'user_id' => Auth::id(),
             ]);
 
             return response()->json([
@@ -47,7 +48,9 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::all();
+            // Display only the categories created by the current user
+            $categories = Category::where('user_id', Auth::id())->get();
+            
             return response()->json([
                 'status' => true,
                 'message' => 'All categories',
@@ -64,7 +67,8 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $category = category::find($id);
+            // Find only the category created by the current user to update
+            $category = Category::where('user_id', Auth::id())->find($id);
 
             if (!$category) {
                 return response()->json([
@@ -82,7 +86,7 @@ class CategoryController extends Controller
                     'status' => false,
                     'message' => 'Validation error',
                     'errors' => $validateCategory->errors()
-                ], 401);
+                ], 400);
             }
 
             $category->update([
@@ -105,12 +109,13 @@ class CategoryController extends Controller
     public function delete($id)
     {
         try {
-            $category = category::find($id);
+            // Find only the category created by the current user to delete
+            $category = Category::where('user_id', Auth::id())->find($id);
 
             if (!$category) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'category not found',
+                    'message' => 'Category not found',
                 ], 404);
             }
 
