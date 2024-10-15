@@ -68,7 +68,7 @@ class CategoryController extends Controller
     {
         try {
             // Find only the category created by the current user to update
-            $category = Category::where('user_id', Auth::id())->find($id);
+            $category = Category::where('id', $id)->where('user_id', Auth::id())->first();
 
             if (!$category) {
                 return response()->json([
@@ -110,7 +110,7 @@ class CategoryController extends Controller
     {
         try {
             // Find only the category created by the current user to delete
-            $category = Category::where('user_id', Auth::id())->find($id);
+            $category = Category::where('id', $id)->where('user_id', Auth::id())->first();
 
             if (!$category) {
                 return response()->json([

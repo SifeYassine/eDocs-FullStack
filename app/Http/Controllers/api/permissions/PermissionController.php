@@ -1,40 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\api\roles;
+namespace App\Http\Controllers\api\permissions;
 
-use App\Models\Role;
+use App\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
-    // Create a new role
+    // Create a new permission
     public function create(Request $request)
     {
         try {
-            $validateRole = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+            $validatePermission = Validator::make($request->all(), [
+                'label' => 'required|string|max:255',
                 'description' => 'required|string|max:255',
             ]);
 
-            if ($validateRole->fails()) {
+            if ($validatePermission->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Validation error',
-                    'errors' => $validateRole->errors()
+                    'errors' => $validatePermission->errors()
                 ], 400);
             }
 
-            $role = Role::create([
-                'name' => $request->name,
+            $permission = Permission::create([
+                'label' => $request->label,
                 'description' => $request->description
             ]);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Role created successfully',
-                'role' => $role,
+                'message' => 'Permission created successfully',
+                'permission' => $permission,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -43,15 +43,15 @@ class RoleController extends Controller
         }
     }
 
-    // Get all roles
+    // Get all permissions
     public function index()
     {
         try {
-            $roles = Role::all();
+            $permissions = Permission::all();
             return response()->json([
                 'status' => true,
-                'message' => 'Roles fetched successfully',
-                'roles' => $roles,
+                'message' => 'Permissions fetched successfully',
+                'permissions' => $permissions,
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -60,43 +60,42 @@ class RoleController extends Controller
         }
     }
 
-    // Update a role
+    // Update a permission
     public function update(Request $request, $id)
     {
         try {
-            $role = Role::find($id);
+            $permission = Permission::find($id);
 
-            if (!$role) {
+            if (!$permission) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Role not found',
+                    'message' => 'Permission not found',
                 ], 404);
             }
 
-            $validateRole = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+            $validatePermission = Validator::make($request->all(), [
+                'label' => 'required|string|max:255',
                 'description' => 'required|string|max:255',
             ]);
 
-            if ($validateRole->fails()) {
+            if ($validatePermission->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Validation error',
-                    'errors' => $validateRole->errors()
+                    'errors' => $validatePermission->errors()
                 ], 400);
             }
 
-            $role->update([
-                'name' => $request->name,
+            $permission->update([
+                'label' => $request->label,
                 'description' => $request->description
             ]);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Role updated successfully',
-                'role' => $role,
+                'message' => 'Permission updated successfully',
+                'permission' => $permission,
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => $th->getMessage()
@@ -104,23 +103,23 @@ class RoleController extends Controller
         }
     }
 
-    // Delete a role
+    // Delete a permission
     public function delete($id)
     {
         try {
-            $role = Role::find($id);
+            $permission = Permission::find($id);
 
-            if (!$role) {
+            if (!$permission) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Role not found',
+                    'message' => 'Permission not found',
                 ], 404);
             }
 
-            $role->delete();
+            $permission->delete();
             return response()->json([
                 'status' => true,
-                'message' => 'Role deleted successfully',
+                'message' => 'Permission deleted successfully',
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

@@ -28,7 +28,7 @@ class AuthController extends Controller
                     'status' => false,
                     'message' => 'Validation error',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 400);
             }
 
             // Check if there are no roles, then create default roles
@@ -78,14 +78,14 @@ class AuthController extends Controller
                     'status' => false,
                     'message' => 'Validation error',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 400);
             }
 
             if (!Auth::attempt($request->only(['username', 'password']))) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Wrong username and/or password',
-                ], 401);
+                ], 400);
             }
 
             $user = Auth::user();

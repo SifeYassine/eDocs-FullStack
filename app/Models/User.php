@@ -55,6 +55,6 @@ class User extends Authenticatable
     // Users can have many permissions
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class)->withTimestamps();
+        return $this->belongsToMany(Permission::class, 'permission_user', 'user_id', 'permission_id');
     }
 }

@@ -49,7 +49,7 @@ class DocumentController extends Controller
             }
 
             // Check if the provided category exists (created by the current user)
-            $category = Category::where('user_id', Auth::id())->find($request->category_id);
+            $category = Category::where('id', $request->category_id)->where('user_id', Auth::id())->first();
 
             if (!$category) {
                 return response()->json([
@@ -92,8 +92,21 @@ class DocumentController extends Controller
     public function index()
     {
         try {
-            // Display only the documents created by the current user
-            $documents = Document::where('user_id', Auth::id())->get();
+            // Display only the documents created by the current user (eager loading to avoid quering the category for each document)
+            $documents = Document::with('category:id,name')->where('user_id', Auth::id())->get();
+
+            // Tranform the category_id key to include the category name
+            $documents->transform(function ($document) {
+
+                $document->category_id = [
+                    'id' => $document->category->id,
+                    'name' => $document->category->name,
+                ];
+
+                // Remove the category key from the document
+                unset($document->category);
+                return $document;
+            });
 
             return response()->json([
                 'status' => true,
