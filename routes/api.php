@@ -37,9 +37,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('users/{userId}/permissions/{permissionId}/revoke', [PermissionUserController::class, 'revokePermissionFromUser']);
 
     // Users Routes
-    Route::get('users/index', [CategoryController::class, 'index'])->middleware(PermissionMiddleware::class . ':List Users');
-    Route::put('users/update/{id}', [CategoryController::class, 'update'])->middleware(PermissionMiddleware::class . ':Assign Role to User');
-    Route::delete('users/delete/{id}', [CategoryController::class, 'delete'])->middleware(PermissionMiddleware::class . ':Delete a User');
+    Route::get('users/index', [UserController::class, 'index'])->middleware(PermissionMiddleware::class . ':List Users');
+    Route::get('users/get_profile', [UserController::class, 'getMyProfile']);
+    Route::put('users/update/{id}', [UserController::class, 'update'])->middleware(PermissionMiddleware::class . ':Assign Role to User');
+    Route::put('users/edit_profile', [UserController::class, 'editMyProfile']);
+    Route::delete('users/delete/{id}', [UserController::class, 'delete'])->middleware(PermissionMiddleware::class . ':Delete a User');
 
     // Categories routes
     Route::post('categories/create', [CategoryController::class, 'create']);

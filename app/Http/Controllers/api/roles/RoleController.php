@@ -50,7 +50,7 @@ class RoleController extends Controller
             $roles = Role::all();
             return response()->json([
                 'status' => true,
-                'message' => 'Roles fetched successfully',
+                'message' => 'All Roles',
                 'roles' => $roles,
             ], 200);
         } catch (\Throwable $th) {
