@@ -79,7 +79,7 @@ class DocumentController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Document created successfully',
-                'Document' => $document
+                'document' => $document
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -156,7 +156,7 @@ class DocumentController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Document updated successfully',
-                'Document' => $document
+                'document' => $document
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
