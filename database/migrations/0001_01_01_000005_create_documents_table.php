@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('format');
             $table->string('path_url');
             $table->timestamps();
-            $table->foreignId('category_id')->constrained('categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('documents');
     }
 };

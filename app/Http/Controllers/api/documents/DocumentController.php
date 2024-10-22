@@ -21,7 +21,7 @@ class DocumentController extends Controller
                 'title' => 'nullable|string|max:255',
                 'format' => 'nullable|string|max:255',
                 'path_url' => 'required|file|max:10240',
-                'category_id' => 'required|integer|exists:categories,id',
+                'category_id' => 'nullable|integer|exists:categories,id',
                 'user_id' => 'nullable|integer|exists:users,id',
             ]);
 
@@ -34,28 +34,31 @@ class DocumentController extends Controller
                 ], 400);
             }
 
+            // Check if the category belongs to the current user (if provided)
+            $categoryId = $request->category_id;
+            if ($categoryId) {
+                $category = Category::where('id', $categoryId)->where('user_id', Auth::id())->first();
+    
+                if (!$category) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Category not found',
+                    ], 404);
+                }
+            }
+
             // File type validation
             $uploadedFile = $request->file('path_url');
             $fileExtension = $uploadedFile->getClientOriginalExtension();
             $fileName = $uploadedFile->getClientOriginalName();
             $fileTitle = str_replace('.' . $fileExtension, '', $fileName);
-            $allowedExtensions = ['pdf', 'docx', 'xlsx', 'pptx', 'txt'];
+            $allowedExtensions = ['pdf', 'docx', 'xlsx', 'pptx', 'txt', 'png', 'jpg', 'jpeg', 'mp4'];
 
             if (!in_array($fileExtension, $allowedExtensions)) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Invalid file type. the file must be file of type: ' . implode(', ', $allowedExtensions),
                 ], 400);
-            }
-
-            // Check if the provided category exists (created by the current user)
-            $category = Category::where('id', $request->category_id)->where('user_id', Auth::id())->first();
-
-            if (!$category) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Category not found',
-                ], 404);
             }
 
             // Handle document path in test environment
@@ -72,7 +75,7 @@ class DocumentController extends Controller
                 'title' => $fileTitle,
                 'format' => $fileExtension,
                 'path_url' => $filePath,
-                'category_id' => $category->id,
+                'category_id' => $categoryId,
                 'user_id' => Auth::id(),
             ]);
 
@@ -97,13 +100,17 @@ class DocumentController extends Controller
 
             // Tranform the category_id key to include the category name
             $documents->transform(function ($document) {
-
-                $document->category_id = [
-                    'id' => $document->category->id,
-                    'name' => $document->category->name,
-                ];
-
-                // Remove the category key from the document
+                if ($document->category_id) {
+                    $document->category_id = [
+                        'id' => $document->category->id,
+                        'name' => $document->category->name,
+                    ];
+                } else {
+                    // Handle documents with no category
+                    $document->category_id = null;
+                }
+    
+                // Remove the category relationship from the document
                 unset($document->category);
                 return $document;
             });
