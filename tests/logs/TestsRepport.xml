@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="D:\Web Dev\Simplon Projects\eDocs\phpunit.xml" tests="12" assertions="48" errors="0" failures="0" skipped="0" time="1.145310">
+    <testsuite name="Unit" tests="12" assertions="48" errors="0" failures="0" skipped="0" time="1.145310">
+
+      <!-- Auth Controller Test Suite-->
+      <testsuite name="Tests\Unit\AuthControllerTest" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\AuthControllerTest.php" tests="3" assertions="16" errors="0" failures="0" skipped="0" time="0.681477">
+        <testcase name="test_user_can_register_as_admin_and_user" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\AuthControllerTest.php" line="22" class="Tests\Unit\AuthControllerTest" classname="Tests.Unit.AuthControllerTest" assertions="8" time="0.561325"/>
+        <testcase name="test_user_can_login" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\AuthControllerTest.php" line="81" class="Tests\Unit\AuthControllerTest" classname="Tests.Unit.AuthControllerTest" assertions="6" time="0.075866"/>
+        <testcase name="test_user_can_logout" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\AuthControllerTest.php" line="115" class="Tests\Unit\AuthControllerTest" classname="Tests.Unit.AuthControllerTest" assertions="2" time="0.044286"/>
+      </testsuite>
+
+     <!-- Category Controller Test Suite-->
+      <testsuite name="Tests\Unit\CategoryControllerTest" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\CategoryControllerTest.php" tests="4" assertions="15" errors="0" failures="0" skipped="0" time="0.113711">
+        <testcase name="test_user_can_create_category" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\CategoryControllerTest.php" line="26" class="Tests\Unit\CategoryControllerTest" classname="Tests.Unit.CategoryControllerTest" assertions="3" time="0.031116"/>
+        <testcase name="test_user_can_get_their_categories" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\CategoryControllerTest.php" line="60" class="Tests\Unit\CategoryControllerTest" classname="Tests.Unit.CategoryControllerTest" assertions="6" time="0.031228"/>
+        <testcase name="test_user_can_update_their_category" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\CategoryControllerTest.php" line="94" class="Tests\Unit\CategoryControllerTest" classname="Tests.Unit.CategoryControllerTest" assertions="3" time="0.026631"/>
+        <testcase name="test_user_can_delete_their_category" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\CategoryControllerTest.php" line="121" class="Tests\Unit\CategoryControllerTest" classname="Tests.Unit.CategoryControllerTest" assertions="3" time="0.024736"/>
+      </testsuite>
+      
+     <!-- Document Controller Test Suite-->
+      <testsuite name="Tests\Unit\DocumentControllerTest" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\DocumentControllerTest.php" tests="4" assertions="16" errors="0" failures="0" skipped="0" time="0.345811">
+        <testcase name="test_user_can_create_document" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\DocumentControllerTest.php" line="33" class="Tests\Unit\DocumentControllerTest" classname="Tests.Unit.DocumentControllerTest" assertions="4" time="0.169036"/>
+        <testcase name="test_user_can_get_their_documents" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\DocumentControllerTest.php" line="83" class="Tests\Unit\DocumentControllerTest" classname="Tests.Unit.DocumentControllerTest" assertions="6" time="0.096412"/>
+        <testcase name="test_user_can_update_their_document" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\DocumentControllerTest.php" line="117" class="Tests\Unit\DocumentControllerTest" classname="Tests.Unit.DocumentControllerTest" assertions="3" time="0.046465"/>
+        <testcase name="test_user_can_delete_their_document" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\DocumentControllerTest.php" line="150" class="Tests\Unit\DocumentControllerTest" classname="Tests.Unit.DocumentControllerTest" assertions="3" time="0.033898"/>
+      </testsuite>
+
+      <testsuite name="Tests\Unit\ExampleTest" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\ExampleTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.004311">
+        <testcase name="test_that_true_is_true" file="D:\Web Dev\Simplon Projects\eDocs\tests\Unit\ExampleTest.php" line="12" class="Tests\Unit\ExampleTest" classname="Tests.Unit.ExampleTest" assertions="1" time="0.004311"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

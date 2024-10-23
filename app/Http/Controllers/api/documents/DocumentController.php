@@ -61,15 +61,12 @@ class DocumentController extends Controller
                 ], 400);
             }
 
-            // Handle document path in test environment
-            if (app()->environment('testing')) {
-                $filePath = 'test.pdf';
-            } else {
-                // Handle document path in development environment
-                $folder = 'public/documents';
-                $filePath = $uploadedFile->storeAs($folder, $fileName);
-                $filePath = Storage::url($filePath);
-            }
+
+            // Handle document storage path
+            $folder = 'public/documents';
+            $filePath = $uploadedFile->storeAs($folder, $fileName);
+            $filePath = Storage::url($filePath);
+            
 
             $document = Document::create([
                 'title' => $fileTitle,
