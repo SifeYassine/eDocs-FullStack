@@ -19,29 +19,38 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Logout route
     Route::post('auth/logout', [AuthController::class, 'logout']);
 
-    // Roles Routes
-    Route::post('roles/create', [RoleController::class, 'create'])->middleware(PermissionMiddleware::class . ':Create a Role');
-    Route::get('roles/index', [RoleController::class, 'index'])->middleware(PermissionMiddleware::class . ':List Roles');
-    Route::put('roles/update/{id}', [RoleController::class, 'update'])->middleware(PermissionMiddleware::class . ':Update a Role');
-    Route::delete('roles/delete/{id}', [RoleController::class, 'delete'])->middleware(PermissionMiddleware::class . ':Delete a Role');
+    // Roles Routes with "Manage Roles" Permission Middleware
+    Route::middleware([PermissionMiddleware::class . ':Manage Roles'])->group(function () {
+        Route::post('roles/create', [RoleController::class, 'create']);
+        Route::get('roles/index', [RoleController::class, 'index']);
+        Route::put('roles/update/{id}', [RoleController::class, 'update']);
+        Route::delete('roles/delete/{id}', [RoleController::class, 'delete']);
+    });
 
-    // Permissions Routes
-    Route::post('permissions/create', [PermissionController::class, 'create'])->middleware(PermissionMiddleware::class . ':Create a Permission');
-    Route::get('permissions/index', [PermissionController::class, 'index'])->middleware(PermissionMiddleware::class . ':List Permissions');
-    Route::put('permissions/update/{id}', [PermissionController::class, 'update'])->middleware(PermissionMiddleware::class . ':Update a Permission');
-    Route::delete('permissions/delete/{id}', [PermissionController::class, 'delete'])->middleware(PermissionMiddleware::class . ':Delete a Permission');
+    // Permissions Routes with "Manage Permissions" Permission Middleware
+    Route::middleware([PermissionMiddleware::class . ':Manage Permissions'])->group(function () {
+        Route::post('permissions/create', [PermissionController::class, 'create']);
+        Route::get('permissions/index', [PermissionController::class, 'index']);
+        Route::put('permissions/update/{id}', [PermissionController::class, 'update']);
+        Route::delete('permissions/delete/{id}', [PermissionController::class, 'delete']);
 
-    // Permission_User routes
-    Route::post('users/{userId}/permissions/{permissionId}/assign', [PermissionUserController::class, 'assignPermissionToUser']);
-    Route::get('users/{userId}/permissions/index', [PermissionUserController::class, 'getPermissionsAssignedToUser']);
-    Route::delete('users/{userId}/permissions/{permissionId}/revoke', [PermissionUserController::class, 'revokePermissionFromUser']);
+        // Permission_User routes
+        Route::post('users/{userId}/permissions/{permissionId}/assign', [PermissionUserController::class, 'assignPermissionToUser']);
+        Route::get('users/{userId}/permissions/index', [PermissionUserController::class, 'getPermissionsAssignedToUser']);
+        Route::delete('users/{userId}/permissions/{permissionId}/revoke', [PermissionUserController::class, 'revokePermissionFromUser']);
+    });
 
     // Users Routes
-    Route::get('users/index', [UserController::class, 'index'])->middleware(PermissionMiddleware::class . ':List Users');
+    Route::middleware([PermissionMiddleware::class . ':Manage Users'])->group(function () {
+        Route::get('users/index', [UserController::class, 'index']);
+        Route::put('users/update/{id}', [UserController::class, 'update']);
+        Route::delete('users/delete/{id}', [UserController::class, 'delete']);
+    });
+
+    // Personal Profile Routes
     Route::get('users/get_profile', [UserController::class, 'getMyProfile']);
-    Route::put('users/update/{id}', [UserController::class, 'update'])->middleware(PermissionMiddleware::class . ':Assign Role to User');
     Route::put('users/edit_profile', [UserController::class, 'editMyProfile']);
-    Route::delete('users/delete/{id}', [UserController::class, 'delete'])->middleware(PermissionMiddleware::class . ':Delete a User');
+
 
     // Categories routes
     Route::post('categories/create', [CategoryController::class, 'create']);
