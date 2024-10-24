@@ -16,6 +16,20 @@ class UserController extends Controller
     {
         try {
             $users = User::all();
+
+            // Tranform the role_id key to include the role name
+            $users->transform(function ($user) {
+                if ($user->role_id) {
+                    $user->role_id = [
+                        'id' => $user->role->id,
+                        'name' => $user->role->name
+                    ];
+                } 
+
+                // Remove the role key from the user
+                unset($user->role);
+                return $user;
+            });
             
             return response()->json([
                 'status' => true,

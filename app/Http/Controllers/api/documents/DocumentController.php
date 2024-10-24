@@ -107,7 +107,7 @@ class DocumentController extends Controller
                     $document->category_id = null;
                 }
     
-                // Remove the category relationship from the document
+                // Remove the category key from the document
                 unset($document->category);
                 return $document;
             });

@@ -36,7 +36,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // Permission_User routes
         Route::post('users/{userId}/permissions/{permissionId}/assign', [PermissionUserController::class, 'assignPermissionToUser']);
-        Route::get('users/{userId}/permissions/index', [PermissionUserController::class, 'getPermissionsAssignedToUser']);
         Route::delete('users/{userId}/permissions/{permissionId}/revoke', [PermissionUserController::class, 'revokePermissionFromUser']);
     });
 
@@ -46,6 +45,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('users/update/{id}', [UserController::class, 'update']);
         Route::delete('users/delete/{id}', [UserController::class, 'delete']);
     });
+
+    // Index Permissions_User Route
+    Route::get('users/{userId}/permissions/index', [PermissionUserController::class, 'getPermissionsAssignedToUser']);
 
     // Personal Profile Routes
     Route::get('users/get_profile', [UserController::class, 'getMyProfile']);
