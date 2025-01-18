@@ -10,6 +10,7 @@ use App\Http\Middleware\PermissionMiddleware;
 use App\Http\Controllers\api\users\UserController;
 use App\Http\Controllers\api\categories\CategoryController;
 use App\Http\Controllers\api\documents\DocumentController;
+use App\Http\Controllers\api\posts\PostController;
 
 // Register & login routes
 Route::post('auth/register', [AuthController::class, 'register']);
@@ -65,4 +66,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('documents/index', [DocumentController::class, 'index']);
     Route::put('documents/update/{id}', [DocumentController::class, 'update']);
     Route::delete('documents/delete/{id}', [DocumentController::class, 'delete']);
+
+    // Posts routes
+    Route::post('posts/create', [PostController::class, 'create']);
+    Route::get('posts/index', [PostController::class, 'index']);
+    Route::delete('posts/delete/{id}', [PostController::class, 'delete']);
 });
